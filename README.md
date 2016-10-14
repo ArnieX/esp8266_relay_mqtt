@@ -42,6 +42,23 @@ Update platformio.ini with your custom preferences (Do not change unless you wan
 
 To turn OTA OFF any time, just comment these lines again with ;
 
+## Usage
+
+Send command through your MQTT server as such:
+
+|TOPIC|DESCRIPTION|
+|---|---|
+|home/room/relayone|Send 1/0 to turn ON/OFF|
+|home/pingall|Send whatever and you get response at topic home/pingallresponse|
+
+Receive back from your device:
+
+|TOPIC|DESCRIPTION|
+|---|---|
+|home/room/device_name/devicestatus|Will contain device status eg connected|
+|home/pingallresponse|This will contain status after you send pingall request and all devices should respond|
+|home/room/relayone/status|This listens for status change to set correct status eg in Homebridge|
+
 ## Result
 
 **Click the image to play video on YouTube:**
