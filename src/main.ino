@@ -132,7 +132,7 @@ void setup() {
   pinMode(BUILTIN_LED, OUTPUT);     //Initialize the BUILTIN_LED pin as an output
   Serial.begin(115200);
   WiFiManager wifiManager;
-  wifiManager.autoConnect(autoconf_ssid,autoconf_password);
+  wifiManager.autoConnect(autoconf_ssid,autoconf_pwd);
   setup_ota();
   client.setServer(mqtt_server, mqtt_port);
   client.setCallback(callback);
