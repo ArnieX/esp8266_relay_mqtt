@@ -9,16 +9,16 @@
 
 // Constants
 const char* autoconf_ssid = "ESP8266_DEVICENAME"; //AP name for WiFi setup AP which your ESP will open when not able to connect to other WiFi
-const char* autoconf_password = "CONFIG_WIFI_PWD"; // AP password so noone else can connect to the ESP in case your router fails
-const char* mqtt_server = "XX.XX.XX.XX"; //MQTT Server IP, your home MQTT server eg Mosquitto on RPi, or some public MQTT
-const int mqtt_port = 1883; //MQTT Server PORT, default is 1883 but can be anything.
+const char* autoconf_pwd  = "CONFIG_WIFI_PWD"; // AP password so noone else can connect to the ESP in case your router fails
+const char* mqtt_server   = "XX.XX.XX.XX"; //MQTT Server IP, your home MQTT server eg Mosquitto on RPi, or some public MQTT
+const int mqtt_port       = 1883; //MQTT Server PORT, default is 1883 but can be anything.
 
 // MQTT Constants
-const char* mqtt_devicestatus_set_topic = "home/room/device_name/devicestatus"; // Change device name, but you can completely change the topics to suit your needs
+const char* mqtt_devicestatus_set_topic    = "home/room/device_name/devicestatus"; // Change device name, but you can completely change the topics to suit your needs
 const char* mqtt_pingallresponse_set_topic = "home/pingallresponse";
-const char* mqtt_relayone_set_topic = "home/room/relayone/status";
-const char* mqtt_relayone_get_topic = "home/room/relayone";
-const char* mqtt_pingall_get_topic = "home/pingall";
+const char* mqtt_relayone_set_topic        = "home/room/relayone/status";
+const char* mqtt_relayone_get_topic        = "home/room/relayone";
+const char* mqtt_pingall_get_topic         = "home/pingall";
 
 // Global
 byte relayone_state;
