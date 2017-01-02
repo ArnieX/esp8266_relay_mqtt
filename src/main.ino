@@ -22,6 +22,7 @@ const char* mqtt_pingall_get_topic         = "home/pingall";
 
 // Global
 byte relayone_state;
+long lastReconnectAttempt = 0;
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -44,19 +45,16 @@ void setup_ota() {
 
 }
 
-void reconnect() {
+boolean reconnect() {
 
   // MQTT reconnection function
-
-  // Loop until we're reconnected
-  while (!client.connected()) {
 
     // Create a random client ID
     String clientId = "ESP8266Client-";
     clientId += String(random(0xffff), HEX);
 
     // Attempt to connect
-    if (client.connect(clientId.c_str())) {
+    if (client.connect(clientId.c_str(),mqtt_devicestatus_set_topic,0,false,"disconnected")) {
 
       // Once connected, publish an announcement...
       client.publish(mqtt_devicestatus_set_topic, "connected");
@@ -64,14 +62,9 @@ void reconnect() {
       client.subscribe(mqtt_relayone_get_topic);
       client.subscribe(mqtt_pingall_get_topic);
 
-    } else {
-
-      // Wait 5 seconds before retrying
-      delay(5000);
-
     }
 
-  }
+    return client.connected();
 
 }
 
@@ -117,6 +110,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
     } else if ( s_topic == mqtt_pingall_get_topic ) {
 
       client.publish(mqtt_pingallresponse_set_topic, "{\"device_name\":\"connected\"}");
+      client.publish(mqtt_devicestatus_set_topic, "connected");
 
     }
 
@@ -134,8 +128,10 @@ void setup() {
   WiFiManager wifiManager;
   wifiManager.autoConnect(autoconf_ssid,autoconf_pwd);
   setup_ota();
+  MDNS.begin("esp-relay");
   client.setServer(mqtt_server, mqtt_port);
   client.setCallback(callback);
+  lastReconnectAttempt = 0;
   digitalWrite(BUILTIN_LED, HIGH);  //Turn off LED as default, also signal that setup is over
 
 }
@@ -143,9 +139,19 @@ void setup() {
 void loop() {
 
   if (!client.connected()) {
-      reconnect();
+    long now = millis();
+    if (now - lastReconnectAttempt > 5000) {
+      lastReconnectAttempt = now;
+      // Attempt to reconnect
+      if (reconnect()) {
+        lastReconnectAttempt = 0;
+      }
     }
+  } else {
+    // Client connected
     client.loop();
-    ArduinoOTA.handle();
+  }
+  ArduinoOTA.handle();
+
 
 }
