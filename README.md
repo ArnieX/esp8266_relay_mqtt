@@ -2,6 +2,8 @@
 
 This project was the first thing I did with NodeMCU. I hope that following this README will be as straightforward as possible. In case you have questions do not hesitate to contact me using [Issues](https://github.com/ArnieX/esp8266_relay_mqtt/issues).
 
+## Check out my new repository with ESP8266 equipped HW - [SWIFITCH](https://github.com/ArnieX/swifitch)
+
 If you want to be able to change LED Strip brightness too follow my other project: [LED Strip Dimming using MOSFET](https://github.com/ArnieX/esp8266_dimmer_mqtt)
 
 ## Dependencies
